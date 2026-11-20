@@ -1,0 +1,12 @@
+---
+title: "CS 4140 Slides"
+---
+
+Lecture slides for CS 4140 — Software Engineering.
+
+## Databases
+
+- [One Commit Point](nosql-slides/index.qmd) — one lecture on why NoSQL exists:
+  the ACID transaction assumes a single commit point, a single commit point does
+  not survive multiple writers across machines, and every system in the lecture
+  is a position on where that point goes and who pays for it.

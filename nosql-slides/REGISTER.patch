@@ -1,0 +1,42 @@
+--- a/index.qmd
++++ b/index.qmd
+@@ -1,7 +1,11 @@
+ ---
+ title: "CS 4140 Slides"
+ ---
+ 
+ Lecture slides for CS 4140 — Software Engineering.
++
++## Databases
++
++- [One Commit Point](nosql-slides/index.qmd) — one lecture on why NoSQL exists:
++  the ACID transaction assumes a single commit point, a single commit point does
++  not survive multiple writers across machines, and every system in the lecture
++  is a position on where that point goes and who pays for it.
+--- a/_quarto.yml
++++ b/_quarto.yml
+@@ -0,0 +1,21 @@
++project:
++  type: website
++  output-dir: _site
++  render:
++    - "index.qmd"
++    - "nosql-slides/index.qmd"
++  resources:
++    - "**/assets/**"
++
++website:
++  title: "CS 4140 — Software Engineering"
++  navbar:
++    left:
++      - href: index.qmd
++        text: Home
++      - text: NoSQL
++        menu:
++          - nosql-slides/index.qmd
++  search: true
++
++format:
++  html:
++    theme: cosmo
++    toc: true

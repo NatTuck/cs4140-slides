@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="450" viewBox="0 0 900 450">
+<defs><marker id="arw_111827" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#111827"/></marker><marker id="arw_0f766e" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f766e"/></marker><marker id="arw_b45309" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b45309"/></marker><marker id="arw_b91c1c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arw_1d4ed8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d4ed8"/></marker><marker id="arw_6b7280" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker><marker id="arw_4b5563" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/></marker><marker id="arw_15803d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker><marker id="arw_6d28d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6d28d9"/></marker></defs>
+<rect width="900" height="450" fill="#ffffff"/>
+<rect x="60.0" y="110.0" width="340.0" height="150.0" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+<text x="76.0" y="136.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="13" fill="#0f766e" font-weight="700">shard 1  (customer &lt; 500)</text>
+<rect x="76.0" y="160.0" width="150.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="232.0" y="160.0" width="152.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="86.0" y="182.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">customer</text>
+<text x="242.0" y="182.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">balance</text>
+<rect x="76.0" y="200.0" width="150.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="232.0" y="200.0" width="152.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="86.0" y="222.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">alice  312</text>
+<text x="242.0" y="222.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">100</text>
+<rect x="500.0" y="110.0" width="340.0" height="150.0" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+<text x="516.0" y="136.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="13" fill="#0f766e" font-weight="700">shard 2  (customer &gt;= 500)</text>
+<rect x="516.0" y="160.0" width="150.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="672.0" y="160.0" width="152.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="526.0" y="182.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">customer</text>
+<text x="682.0" y="182.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">balance</text>
+<rect x="516.0" y="200.0" width="150.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="672.0" y="200.0" width="152.0" height="34.0" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<text x="526.0" y="222.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">bob    712</text>
+<text x="682.0" y="222.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="13" fill="#111827">50</text>
+<text x="450.0" y="200.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="13" fill="#b91c1c" font-weight="700">no</text>
+<text x="450.0" y="220.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="13" fill="#b91c1c" font-weight="700">join</text>
+<line x1="230.0" y1="262.0" x2="230.0" y2="316.0" stroke="#b91c1c" stroke-width="2" stroke-linecap="round" stroke-dasharray="5,4"/>
+<line x1="670.0" y1="262.0" x2="670.0" y2="316.0" stroke="#b91c1c" stroke-width="2" stroke-linecap="round" stroke-dasharray="5,4"/>
+<line x1="230.0" y1="316.0" x2="670.0" y2="316.0" stroke="#b91c1c" stroke-width="2" stroke-linecap="round"/>
+<text x="450.0" y="340.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="15" fill="#b91c1c" font-weight="700">100 + 50 = 150</text>
+<text x="450.0" y="360.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#b91c1c">the invariant needs both rows, in one place</text>
+<rect x="60.0" y="384.0" width="780.0" height="58.0" rx="6" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.2"/>
+<rect x="60.0" y="384.0" width="5.0" height="58.0" rx="2" fill="#0f766e" stroke="#0f766e" stroke-width="0"/>
+<text x="78.0" y="404.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="15" fill="#111827">Sharding does not make the join inconvenient. It removes the mechanism that made the invariant</text>
+<text x="78.0" y="425.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="15" fill="#111827">checkable.</text>
+</svg>

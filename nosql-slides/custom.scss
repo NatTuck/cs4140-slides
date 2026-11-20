@@ -1,0 +1,147 @@
+/*-- scss:defaults --*/
+
+// CS 4140 deck theme. Teal, so it reads as its own course next to the CS 2010
+// decks' green, violet and rust and the CS 4250 blue.
+$presentation-heading-color: #0f766e;
+$presentation-heading-font-weight: 700;
+$link-color: #0f766e;
+$code-block-font-size: 0.78em;
+
+/*-- scss:rules --*/
+
+// The fonts themselves live in assets/fonts.css, linked with `css:` in the
+// deck's YAML. See the comment at the top of that file for why.
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  text-transform: none;
+}
+
+.reveal .slide-number {
+  color: #0f766e;
+}
+
+.reveal .footer {
+  font-size: 0.5em;
+  color: #6b7280;
+}
+
+.reveal table {
+  font-size: 0.78em;
+}
+
+.reveal table th {
+  background: #f0fdfa;
+}
+
+.reveal table code {
+  background: none;
+  color: #0f766e;
+}
+
+.reveal p code,
+.reveal li code,
+.reveal td code {
+  color: #0f766e;
+  background: #f0fdfa;
+  padding: 0.04em 0.22em;
+  border-radius: 3px;
+}
+
+// Part-header slides are just a title and a line of orientation.
+.reveal h1 {
+  font-size: 2.1em;
+}
+
+.reveal .columns {
+  align-items: center;
+}
+
+.reveal .column p {
+  margin-bottom: 0.25em;
+}
+
+// The four beats, labelled at the top of a slide.
+.reveal .beat {
+  font-size: 0.5em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0d9488;
+  font-weight: 700;
+  margin: 0 0 0.45em 0;
+}
+
+// Definition callouts: a blockquote is how a term gets defined on a slide.
+.reveal blockquote {
+  border-left: 5px solid #5eead4;
+  background: #f0fdfa;
+  padding: 0.45em 0.8em;
+  margin: 0.8em 0 0.4em 0;
+  font-style: normal;
+  font-size: 0.86em;
+  color: #1f2937;
+  box-shadow: none;
+  width: auto;
+}
+
+// The one sentence a slide exists to say.
+.reveal .claim {
+  text-align: center;
+  font-size: 1.22em;
+  margin: 0.7em 0;
+  color: #0f766e;
+  font-weight: 700;
+}
+
+// A small caption under a figure, for the line that reads the picture.
+.reveal .cap {
+  text-align: center;
+  font-size: 0.62em;
+  color: #4b5563;
+  margin-top: 0.15em;
+}
+
+// The ledger: what a system charges and what it pays. Two columns, no table
+// chrome, so it reads as a balance rather than a grid.
+.reveal .ledger {
+  display: flex;
+  gap: 1.2em;
+  font-size: 0.8em;
+  margin: 0.4em 0;
+}
+
+.reveal .ledger > div {
+  flex: 1;
+  border-top: 3px solid #0f766e;
+  padding-top: 0.35em;
+}
+
+.reveal .ledger .cost {
+  border-top-color: #b45309;
+}
+
+// Stepped figures: every frame is the same size and absolutely positioned, so
+// the panel never moves between steps. The height comes from the inline style
+// on the container.
+.reveal .steps {
+  position: relative;
+  width: 100%;
+  margin: 0.1em auto 0 auto;
+}
+
+.reveal .steps p {
+  margin: 0;
+  line-height: 0;
+}
+
+.reveal .steps img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: auto;
+  max-width: none;
+  margin: 0;
+}

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="470" viewBox="0 0 980 470">
+<defs><marker id="arw_111827" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#111827"/></marker><marker id="arw_0f766e" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#0f766e"/></marker><marker id="arw_b45309" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b45309"/></marker><marker id="arw_b91c1c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker><marker id="arw_1d4ed8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d4ed8"/></marker><marker id="arw_6b7280" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b7280"/></marker><marker id="arw_4b5563" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/></marker><marker id="arw_15803d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15803d"/></marker><marker id="arw_6d28d9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6d28d9"/></marker></defs>
+<rect width="980" height="470" fill="#ffffff"/>
+<text x="40.0" y="40.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="13" fill="#0f766e" font-weight="700">a materialized view: exact and range</text>
+<text x="520.0" y="40.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="13" fill="#6d28d9" font-weight="700">an inverted index: relevance</text>
+<rect x="60.0" y="70.0" width="400.0" height="54.0" rx="6" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.6"/>
+<text x="72.0" y="90.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#111827">map(doc) -&gt; emit(doc.tags, doc.id)</text>
+<text x="72.0" y="108.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="11" fill="#6b7280">runs once per document, incrementally</text>
+<rect x="60.0" y="144.0" width="150.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="214.0" y="144.0" width="100.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="70.0" y="162.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#111827">ap</text>
+<text x="224.0" y="162.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#4b5563">d1</text>
+<rect x="60.0" y="174.0" width="150.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="214.0" y="174.0" width="100.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="70.0" y="192.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#111827">doc</text>
+<text x="224.0" y="192.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#4b5563">d2</text>
+<rect x="60.0" y="204.0" width="150.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="214.0" y="204.0" width="100.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="70.0" y="222.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#111827">doc</text>
+<text x="224.0" y="222.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#4b5563">d3</text>
+<rect x="60.0" y="234.0" width="150.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="214.0" y="234.0" width="100.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="70.0" y="252.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#111827">search</text>
+<text x="224.0" y="252.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#4b5563">d4</text>
+<rect x="60.0" y="264.0" width="150.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="214.0" y="264.0" width="100.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="70.0" y="282.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#111827">wide</text>
+<text x="224.0" y="282.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#4b5563">d1</text>
+<rect x="60.0" y="294.0" width="150.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="214.0" y="294.0" width="100.0" height="26.0" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+<text x="70.0" y="312.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#111827">wide</text>
+<text x="224.0" y="312.0" text-anchor="start" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#4b5563">d3</text>
+<text x="60.0" y="136.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="10" fill="#6b7280">key</text>
+<text x="214.0" y="136.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="10" fill="#6b7280">value</text>
+<rect x="60.0" y="316.0" width="254.0" height="14.0" rx="3" fill="#ccfbf1" stroke="#0f766e" stroke-width="1"/>
+<text x="330.0" y="184.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="11" fill="#0f766e">a range scan</text>
+<text x="330.0" y="202.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="11" fill="#0f766e">walks this order</text>
+<line x1="490.0" y1="60.0" x2="490.0" y2="386.0" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7,6"/>
+<rect x="540.0" y="74.0" width="110.0" height="34.0" rx="4" fill="#ffffff" stroke="#6d28d9" stroke-width="1.2"/>
+<text x="595.0" y="96.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#6d28d9" font-weight="700">ap</text>
+<line x1="656.0" y1="91.0" x2="682.0" y2="91.0" stroke="#6d28d9" stroke-width="1.4" stroke-linecap="round" marker-end="url(#arw_6d28d9)"/>
+<rect x="688.0" y="74.0" width="54.0" height="34.0" rx="4" fill="#ede9fe" stroke="#6d28d9" stroke-width="1"/>
+<text x="715.0" y="96.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="11" fill="#111827">d1</text>
+<rect x="540.0" y="118.0" width="110.0" height="34.0" rx="4" fill="#ffffff" stroke="#6d28d9" stroke-width="1.2"/>
+<text x="595.0" y="140.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#6d28d9" font-weight="700">doc</text>
+<line x1="656.0" y1="135.0" x2="682.0" y2="135.0" stroke="#6d28d9" stroke-width="1.4" stroke-linecap="round" marker-end="url(#arw_6d28d9)"/>
+<rect x="688.0" y="118.0" width="54.0" height="34.0" rx="4" fill="#ede9fe" stroke="#6d28d9" stroke-width="1"/>
+<text x="715.0" y="140.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="11" fill="#111827">d2</text>
+<rect x="748.0" y="118.0" width="54.0" height="34.0" rx="4" fill="#ede9fe" stroke="#6d28d9" stroke-width="1"/>
+<text x="775.0" y="140.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="11" fill="#111827">d3</text>
+<rect x="540.0" y="162.0" width="110.0" height="34.0" rx="4" fill="#ffffff" stroke="#6d28d9" stroke-width="1.2"/>
+<text x="595.0" y="184.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#6d28d9" font-weight="700">search</text>
+<line x1="656.0" y1="179.0" x2="682.0" y2="179.0" stroke="#6d28d9" stroke-width="1.4" stroke-linecap="round" marker-end="url(#arw_6d28d9)"/>
+<rect x="688.0" y="162.0" width="54.0" height="34.0" rx="4" fill="#ede9fe" stroke="#6d28d9" stroke-width="1"/>
+<text x="715.0" y="184.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="11" fill="#111827">d4</text>
+<rect x="540.0" y="206.0" width="110.0" height="34.0" rx="4" fill="#ffffff" stroke="#6d28d9" stroke-width="1.2"/>
+<text x="595.0" y="228.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="12" fill="#6d28d9" font-weight="700">wide</text>
+<line x1="656.0" y1="223.0" x2="682.0" y2="223.0" stroke="#6d28d9" stroke-width="1.4" stroke-linecap="round" marker-end="url(#arw_6d28d9)"/>
+<rect x="688.0" y="206.0" width="54.0" height="34.0" rx="4" fill="#ede9fe" stroke="#6d28d9" stroke-width="1"/>
+<text x="715.0" y="228.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="11" fill="#111827">d1</text>
+<rect x="748.0" y="206.0" width="54.0" height="34.0" rx="4" fill="#ede9fe" stroke="#6d28d9" stroke-width="1"/>
+<text x="775.0" y="228.0" text-anchor="middle" font-family="'Fira Code', 'DejaVu Sans Mono', 'Courier New', monospace" font-size="11" fill="#111827">d3</text>
+<text x="540.0" y="300.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#4b5563">one term, every document that has it.</text>
+<text x="540.0" y="320.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#4b5563">A write touches many postings;</text>
+<text x="540.0" y="340.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#4b5563">a read is cheap and ranked.</text>
+<rect x="40.0" y="396.0" width="900.0" height="58.0" rx="6" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.2"/>
+<rect x="40.0" y="396.0" width="5.0" height="58.0" rx="2" fill="#0f766e" stroke="#0f766e" stroke-width="0"/>
+<text x="58.0" y="416.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="15" fill="#111827">Both are indexes, and they answer different questions: "the rows in this range" against "the best few, in any order". The</text>
+<text x="58.0" y="437.0" text-anchor="start" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="15" fill="#111827">second one costs more to write.</text>
+</svg>
