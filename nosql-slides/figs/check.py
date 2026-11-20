@@ -39,6 +39,13 @@ def model_checks():
     check("quorum: R + W > N exactly when the sets overlap", ok, str(bad))
 
     cases = M.quorum_cases()
+    check("commit point: one logical transaction, two commit records",
+          M.retry_check())
+    check("transaction: a set of writes, one outcome", M.transaction_check())
+    check("CAP: three guarantees, and the fork maps onto AP / CP",
+          M.cap_check())
+    check("joins: four answers, shuffle is the expensive one", M.join_check())
+
     check("quorum: nine cases for N = 3", len(cases) == 9, str(len(cases)))
     check("quorum: six pairs hold",
           sum(1 for c in cases if c["holds"]) == 6,
@@ -95,6 +102,12 @@ def model_checks():
 # in the deck case-insensitively; %s is the computed value.
 NUMBERS = [
     ("W + R > N", "W + R > N"),
+    ("two truths and no undo", "two truths and no undo"),
+    ("Path A is AP, Path B is CP", "Path A is AP, Path B is CP"),
+    ("P was never optional", "P was never optional"),
+    ("strict serializability", "strict serializability"),
+    ("the best cross-shard join is the one you designed away",
+     "the best cross-shard join is the one you designed away"),
     ("Six of the nine settings work", "Six of the nine settings work"),
     ("look in four places", "look in four places"),
     ("%s + %s = %s" % (100, 50, 150), "100 + 50 = 150"),
@@ -114,7 +127,8 @@ def deck_checks():
         return
     with open(QMD, encoding="utf-8") as f:
         text = f.read()
-    low = text.lower()
+    # prose wraps, so compare against a whitespace-collapsed copy
+    low = " ".join(text.lower().split())
 
     for fmt, value in NUMBERS:
         if isinstance(value, tuple):

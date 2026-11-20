@@ -11,7 +11,7 @@ order to distribute that point, or to avoid needing one.
 
 ## Layout
 
-- `index.qmd` — the deck (Quarto revealjs, 44 slides).
+- `index.qmd` — the deck (Quarto revealjs, 48 slides).
 - `custom.scss` — the teal theme, plus `.beat`, `.claim`, `.ledger`, `.cap`,
   and the `.steps` rule that stacks stepped figures.
 - `assets/fonts/` + `assets/fonts.css` — the bundled fonts, so the deck needs
@@ -20,7 +20,7 @@ order to distribute that point, or to avoid needing one.
 - `figs/svg.py` — drawing primitives, a text-width estimator, and the layout
   asserts (`fit()`, `region()`).
 - `figs/model.py` — every value the figures draw and the slides quote.
-- `figs/makefigs.py` — all 25 SVGs, from those values.
+- `figs/makefigs.py` — all 29 SVGs, from those values.
 - `figs/check.py` — `make check-figs`: recomputes the arithmetic and asserts
   that every number printed on a slide still equals what the model computes.
 - `figs/lint.py` — `make check`: notes on every slide, balanced divs, no
@@ -31,9 +31,12 @@ order to distribute that point, or to avoid needing one.
 
 ## The story in five moves
 
-1. Postgres is ACID because one node owns the commit point.
-2. A commit point does not survive multiple writers across machines.
-3. So you fork: converge later, or wait for a majority.
+1. A commit point is one decision — visible, durable, ordered — and Postgres
+   implements it as one record in one log.
+2. Having it twice is the problem: a lost reply and a retry give one
+   transaction two commit points and no undo.
+3. So you fork: converge later (AP), or wait for a majority (CP). That is CAP,
+   and its "C" is not ACID's "C".
 4. The join is what pays for sharding, and Cassandra deletes it on purpose.
 5. Once the table is only a view, the point moves — into a document, into a
    bucket, or back behind a consensus group.
@@ -55,6 +58,11 @@ read cold; the speaker notes are extra, not required.
 | revision tree | four revisions, winner `3-*`, one branch retained as a conflict |
 | the index | four documents, five `(tag, doc)` pairs, two shapes |
 | consensus | **two round trips** before the client is told yes |
+| the commit point | one record, three jobs, one instant of visibility |
+| the retry | one logical transaction, **two** commit records, no undo |
+| the transaction | a set of writes with exactly one outcome |
+| CAP | three guarantees; Path A is AP and Path B is CP |
+| the joins | four answers; shuffle is the expensive one |
 | the design space | thirteen systems on two axes; one empty corner |
 
 ## Verify before presenting
@@ -109,4 +117,9 @@ mechanical instead:
   if a string runs past the box it was given, using an advance-width estimate.
 - `convert fig.svg -trim` is asserted to leave a margin, which catches content
   spilling off the canvas.
+- A self-check inside `makefigs` compares the labels a figure draws against
+  the data it drew them from. The first draft of `fig-cassandra-model` sorted
+  partition keys as strings, so every bracket carried the wrong label — the
+  kind of bug that is invisible to a compiler and obvious to a reader. The
+  check is what would have caught it.
 - One visual pass by a human is still owed. It has not happened.

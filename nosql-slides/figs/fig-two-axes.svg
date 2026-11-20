@@ -15,11 +15,11 @@
 <rect x="542.0" y="140.0" width="146.0" height="44.0" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
 <text x="224.0" y="167.0" text-anchor="end" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#111827">partition b</text>
 <rect x="242.0" y="188.0" width="146.0" height="44.0" rx="4" fill="#f0fdfa" stroke="#cbd5e1" stroke-width="1.2"/>
-<text x="315.0" y="215.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e">partition c</text>
+<text x="315.0" y="215.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e">copy 1</text>
 <rect x="392.0" y="188.0" width="146.0" height="44.0" rx="4" fill="#f0fdfa" stroke="#cbd5e1" stroke-width="1.2"/>
-<text x="465.0" y="215.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e">partition c</text>
+<text x="465.0" y="215.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e">copy 2</text>
 <rect x="542.0" y="188.0" width="146.0" height="44.0" rx="4" fill="#f0fdfa" stroke="#cbd5e1" stroke-width="1.2"/>
-<text x="615.0" y="215.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e">partition c</text>
+<text x="615.0" y="215.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e">copy 3</text>
 <text x="224.0" y="215.0" text-anchor="end" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e">partition c</text>
 <rect x="242.0" y="236.0" width="146.0" height="44.0" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
 <rect x="392.0" y="236.0" width="146.0" height="44.0" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
@@ -34,7 +34,7 @@
 <rect x="542.0" y="332.0" width="146.0" height="44.0" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
 <text x="224.0" y="359.0" text-anchor="end" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#111827">partition f</text>
 <rect x="236.0" y="186.0" width="458.0" height="48.0" rx="6" fill="none" stroke="#0f766e" stroke-width="3"/>
-<text x="465.0" y="176.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e" font-weight="700">one replica set</text>
+<text x="465.0" y="176.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="12" fill="#0f766e" font-weight="700">the replica set for partition c: three copies of one partition</text>
 <text x="465.0" y="412.0" text-anchor="middle" font-family="'DejaVu Sans', 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'Apple Symbols', Verdana, sans-serif" font-size="13" fill="#0f766e" font-weight="700">R + W &gt; M is asked here, inside this row — never globally</text>
 <rect x="60.0" y="434.0" width="780.0" height="58.0" rx="6" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.2"/>
 <rect x="60.0" y="434.0" width="5.0" height="58.0" rx="2" fill="#0f766e" stroke="#0f766e" stroke-width="0"/>

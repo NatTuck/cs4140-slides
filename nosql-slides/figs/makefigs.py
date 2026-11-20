@@ -32,35 +32,120 @@ def save(fig):
 # ===================================================== 1. the commit point
 
 def fig_commit_point():
-    f = Fig(900, 430, "fig-commit-point.svg")
-    f.region(50, 110, 240, 160, "primary")
-    f.rect(50, 110, 240, 160, TEAL_PALE, TEAL, 2.5, rx=8)
-    f.txt(62, 136, "one primary", 17, "start", TEAL, bold=True)
-    f.txt(62, 156, "the commit point", 13, "start", MID)
+    f = Fig(940, 450, "fig-commit-point.svg")
+    y = 168
 
-    # the log
-    f.rect(62, 172, 100, 84, WHITE, RULE, 1.2, rx=4)
-    f.txt(70, 188, "log", 11, "start", GRAY, mono=True)
-    for i in range(6):
-        f.line(70, 198 + i * 9, 154, 198 + i * 9, RULE, 1)
+    f.line(60, y, 880, y, RULE, 2)
+    f.circle(92, y, 9, WHITE, MID, 2.4)
+    f.txt(92, y - 26, "BEGIN", 12, "middle", MID, bold=True)
 
-    f.para(174, 186, 104,
-           "one order, one invariant check, one durability record", 11, MID)
+    for i, label in enumerate(("write 1", "write 2", "write 3")):
+        x = 210 + i * 112
+        f.rect(x, y - 18, 88, 36, PALE, RULE, 1.2, rx=4)
+        f.txt(x + 44, y + 5, label, 11, "middle", INK, mono=True)
 
-    for i, y in enumerate((110, 190, 270)):
-        f.rect(500, y, 190, 60, WHITE, TEAL, 1.6, rx=6)
-        f.txt(510, y + 25, "reader %d" % (i + 1), 14, "start", INK, bold=True)
-        f.txt(510, y + 44, "sees the committed snapshot", 11, "start", GRAY)
-        arrow(f, 292, 190, 496, y + 30, TEAL, 1.8)
+    f.rect(566, y - 34, 160, 68, TEAL, TEAL, 0, rx=6)
+    f.txt(646, y - 6, "commit record", 13, "middle", WHITE, bold=True)
+    f.txt(646, y + 16, "fsync", 11, "middle", TEAL_W, mono=True)
+    f.txt(646, y - 52, "the decision", 12, "middle", TEAL, bold=True)
 
-    f.line(500, 350, 690, 350, TEAL, 1.6, "5,4")
-    f.line(500, 344, 500, 356, TEAL, 1.6)
-    f.line(690, 344, 690, 356, TEAL, 1.6)
-    f.txt(595, 372, "the same snapshot, for every reader", 12, "middle", TEAL)
+    f.line(730, 96, 730, 330, AMBER, 2.4, "7,5")
+    f.txt(742, 108, "visible", 12, "start", AMBER, bold=True)
+    f.txt(742, 124, "from here", 12, "start", AMBER, bold=True)
 
-    caption(f, 50, 388, 800,
-            "One box decides the order, checks the invariant and holds the "
-            "record. That is why ACID is cheap enough to be the default.")
+    f.region(120, 250, 210, 64, "before")
+    f.rect(120, 250, 210, 64, WHITE, RULE, 1.4, rx=6)
+    f.txt(225, 276, "a reader before", 12, "middle", GRAY)
+    f.txt(225, 296, "sees nothing", 12, "middle", GRAY)
+
+    f.region(770, 250, 160, 64, "after")
+    f.rect(770, 250, 160, 64, TEAL_PALE, TEAL, 1.4, rx=6)
+    f.txt(850, 276, "a reader after", 12, "middle", TEAL)
+    f.txt(850, 296, "sees all of it", 12, "middle", TEAL)
+
+    f.line(225, 246, 225, 200, GRAY, 1.4, "5,4")
+    f.line(850, 246, 850, 200, TEAL, 1.4, "5,4")
+
+    caption(f, 60, 366, 820,
+            "One record turns a set of writes into one decision. Before it the "
+            "writes do not exist; after it they all exist, in one order, on "
+            "disk.")
+    save(f)
+
+
+def fig_two_commits():
+    f = Fig(940, 510, "fig-two-commits.svg")
+    f.txt(40, 42, "One transaction, two commit points", 19, "start", TEAL,
+          bold=True)
+
+    for i, (what, why) in enumerate(M.RETRY_STEPS):
+        y = 96 + i * 48
+        f.txt(40, y, "%d" % (i + 1), 13, "start", TEAL, bold=True)
+        f.txt(64, y, what, 12.5, "start", INK)
+        f.txt(64, y + 18, why, 11, "start", GRAY)
+
+    for node, y, tone, wash, label in (
+            ("node A", 90, TEAL, TEAL_PALE, "committed"),
+            ("node B", 262, RED, RED_W, "committed too")):
+        f.region(480, y, 200, 150, node)
+        f.rect(480, y, 200, 150, WHITE, tone, 1.8, rx=6)
+        f.txt(492, y + 22, node, 12, "start", tone, bold=True)
+        for k in range(4):
+            yy = y + 40 + k * 18
+            f.line(492, yy, 668, yy, RULE, 1)
+        f.rect(492, y + 40 + 4 * 18 - 9, 176, 18, wash, tone, 1.4, rx=3)
+        f.txt(580, y + 40 + 4 * 18 + 4, label, 11, "middle", tone, bold=True)
+
+    f.line(700, 96, 716, 96, RED, 2)
+    f.line(700, 406, 716, 406, RED, 2)
+    f.line(716, 96, 716, 406, RED, 2)
+    f.txt(726, 236, "two", 12, "start", RED, bold=True)
+    f.txt(726, 254, "commit", 12, "start", RED, bold=True)
+    f.txt(726, 272, "points", 12, "start", RED, bold=True)
+
+    caption(f, 40, 424, 860,
+            "Neither node is broken. Copying bytes is not the hard part; "
+            "having exactly one decision is. Every node that can fsync a "
+            "commit record is a second commit point.")
+    save(f)
+
+
+def fig_transaction():
+    f = Fig(940, 380, "fig-transaction.svg")
+    y = 140
+
+    f.line(70, y, 640, y, RULE, 2)
+    f.circle(92, y, 9, WHITE, MID, 2.4)
+    f.txt(92, y - 24, "BEGIN", 12, "middle", MID, bold=True)
+
+    for i in range(3):
+        x = 190 + i * 130
+        f.rect(x, y - 18, 104, 36, PALE, RULE, 1.2, rx=4)
+        f.txt(x + 52, y + 5, "write %d" % (i + 1), 11, "middle", INK, mono=True)
+
+    f.line(190, y + 56, 544, y + 56, TEAL, 2)
+    f.line(190, y + 50, 190, y + 62, TEAL, 2)
+    f.line(544, y + 50, 544, y + 62, TEAL, 2)
+    f.txt(367, y + 82, "the unit: one outcome for the whole set", 12, "middle",
+          TEAL, bold=True)
+
+    f.path("M 640 %d L 676 %d L 700 %d" % (y, y, y - 52), "none", TEAL, 2,
+           arrow=True)
+    f.path("M 640 %d L 676 %d L 700 %d" % (y, y, y + 52), "none", RED, 2,
+           arrow=True)
+
+    f.rect(704, y - 78, 160, 52, TEAL_PALE, TEAL, 2, rx=6)
+    f.txt(784, y - 56, "COMMIT", 13, "middle", TEAL, bold=True)
+    f.txt(784, y - 38, "all of it", 11, "middle", MID)
+
+    f.rect(704, y + 26, 160, 52, RED_W, RED, 2, rx=6)
+    f.txt(784, y + 48, "ABORT", 13, "middle", RED, bold=True)
+    f.txt(784, y + 66, "none of it", 11, "middle", MID)
+
+    caption(f, 60, 296, 820,
+            "The unit is a set of writes, not a write. That is why \"single-row "
+            "atomicity\" later in the lecture is a much smaller promise than it "
+            "sounds.")
     save(f)
 
 
@@ -232,36 +317,50 @@ def fig_shard_join():
 # ================================================= 6. the wide-column table
 
 def fig_cassandra_model():
-    cols = ["partition key", "clustering", "value", "battery"]
-    widths = [160, 140, 130, 130]
+    cols = ["clustering", "value", "battery"]
+    widths = [150, 130, 130]
     f = Fig(880, 500, "fig-cassandra-model.svg")
-    x0, y0, rh = 190, 100, 40
+    x0, y0, rh = 340, 132, 40
 
-    y = grid_table(f, x0, y0, cols, [
-        [pk, ck, v, e or "—"] for pk, ck, v, e in M.SENSOR_ROWS
+    grid_table(f, x0, y0, cols, [
+        [ck, v, e or "\u2014"] for pk, ck, v, e in M.SENSOR_ROWS
     ], widths, rh, size=14)
 
-    # one bracket per partition, on the left
+    # One bracket per partition, in the order the rows arrive. The first draft
+    # of this figure sorted the keys as strings, so "sensor 12" came first and
+    # every bracket was labelled with the wrong group. Hence the check.
     parts = M.partitions()
-    row = 0
-    for pk in sorted(parts):
+    order, row = [], 0
+    for pk in parts:
         n = len(parts[pk])
         top = y0 + rh + row * rh
-        f.line(170, top + 3, 170, top + n * rh - 3, TEAL, 2)
-        f.line(170, top + 3, 180, top + 3, TEAL, 2)
-        f.line(170, top + n * rh - 3, 180, top + n * rh - 3, TEAL, 2)
-        f.txt(160, top + n * rh / 2 + 5, pk, 13, "end", TEAL, bold=True)
+        f.line(x0 - 24, top + 3, x0 - 24, top + n * rh - 3, TEAL, 2)
+        f.line(x0 - 24, top + 3, x0 - 12, top + 3, TEAL, 2)
+        f.line(x0 - 24, top + n * rh - 3, x0 - 12, top + n * rh - 3, TEAL, 2)
+        f.txt(x0 - 36, top + n * rh / 2 + 5, pk, 13, "end", TEAL, bold=True)
+        order.append(pk)
         row += n
 
-    f.txt(x0, y0 - 18, "rows arrive grouped by partition, sorted inside it", 12,
-          "start", GRAY)
-    f.txt(x0 + sum(widths) + 16, y0 + rh + 26, "— means", 11, "start", GRAY)
+    seen = []
+    for pk, _ck, _v, _e in M.SENSOR_ROWS:
+        if not seen or seen[-1] != pk:
+            seen.append(pk)
+    if order != seen:
+        raise SystemExit("cassandra-model: bracket labels %r != row groups %r"
+                         % (order, seen))
+
+    f.txt(x0 - 36, y0 + 14, "partition key", 11, "end", GRAY)
+    f.txt(x0, y0 - 18, "the key is the address, so it is not repeated in every "
+                       "row", 12, "start", GRAY)
+
+    f.txt(x0 + sum(widths) + 16, y0 + rh + 26, "\u2014 means", 11, "start", GRAY)
     f.txt(x0 + sum(widths) + 16, y0 + rh + 42, "the cell is", 11, "start", GRAY)
     f.txt(x0 + sum(widths) + 16, y0 + rh + 58, "absent", 11, "start", GRAY)
 
-    caption(f, 60, 420, 780,
-            "Two keys, one sort order, and cells that need not exist. That is "
-            "what \"wide-column\" means: the table is designed around the query.")
+    caption(f, 60, 424, 780,
+            "Grouped by partition, sorted inside it, with cells that need not "
+            "exist. That is what wide-column means: the table is designed "
+            "around the query.")
     save(f)
 
 
@@ -334,14 +433,15 @@ def fig_two_axes():
             f.rect(x + 2, y + 2, cw - 4, ch - 4,
                    TEAL_PALE if lit else WHITE, RULE, 1.2, rx=4)
             if lit:
-                f.txt(x + cw / 2, y + ch / 2 + 5, "partition " + part, 12,
+                f.txt(x + cw / 2, y + ch / 2 + 5, "copy %d" % (j + 1), 12,
                       "middle", TEAL)
         f.txt(x0 - 16, y0 + i * ch + ch / 2 + 5, "partition " + part, 12,
               "end", INK if not lit else TEAL)
 
     f.rect(x0 - 4, y0 + 2 * ch, 3 * cw + 8, ch, "none", TEAL, 3, rx=6)
-    f.txt(x0 + 1.5 * cw, y0 + 2 * ch - 10, "one replica set", 12, "middle",
-          TEAL, bold=True)
+    f.txt(x0 + 1.5 * cw, y0 + 2 * ch - 10,
+          "the replica set for partition c: three copies of one partition", 12,
+          "middle", TEAL, bold=True)
 
     f.txt(x0 + 1.5 * cw, y0 + 6 * ch + 34,
           "R + W > M is asked here, inside this row — never globally", 13,
@@ -811,6 +911,112 @@ def fig_commit_points():
     save(f)
 
 
+# ================================================================== 19. CAP
+
+def fig_cap():
+    f = Fig(940, 440, "fig-cap.svg")
+    f.txt(40, 42, "During a partition, each side must answer somehow", 15,
+          "start", GRAY)
+
+    f.region(90, 80, 260, 96, "node 1")
+    f.rect(90, 80, 260, 96, WHITE, TEAL, 2, rx=8)
+    f.txt(220, 116, "node 1", 15, "middle", TEAL, bold=True)
+    f.txt(220, 140, "has the row", 11, "middle", GRAY)
+
+    f.region(590, 80, 260, 96, "node 2")
+    f.rect(590, 80, 260, 96, WHITE, TEAL, 2, rx=8)
+    f.txt(720, 116, "node 2", 15, "middle", TEAL, bold=True)
+    f.txt(720, 140, "has the other copy", 11, "middle", GRAY)
+
+    f.path("M 360 128 L 400 128", "none", RED, 2.4, "5,4")
+    f.path("M 540 128 L 580 128", "none", RED, 2.4, "5,4")
+    f.path("M 420 96 L 444 160 L 470 96 L 496 160", "none", RED, 2.4)
+    f.txt(470, 76, "the partition", 13, "middle", RED, bold=True)
+    f.txt(470, 184, "P is not a knob you set", 11, "middle", GRAY)
+    f.txt(470, 200, "it is a property of the network", 11, "middle", GRAY)
+
+    f.rect(150, 250, 280, 96, AMBER_W, AMBER, 2, rx=8)
+    f.txt(290, 280, "refuse the request", 14, "middle", AMBER, bold=True)
+    f.txt(290, 304, "consistent, and unavailable", 11, "middle", INK)
+    f.txt(290, 326, "CP", 13, "middle", AMBER, bold=True)
+
+    f.rect(510, 250, 280, 96, TEAL_PALE, TEAL, 2, rx=8)
+    f.txt(650, 280, "answer, possibly stale", 14, "middle", TEAL, bold=True)
+    f.txt(650, 304, "available, and inconsistent", 11, "middle", INK)
+    f.txt(650, 326, "AP", 13, "middle", TEAL, bold=True)
+
+    f.line(220, 178, 220, 246, RULE, 1.4, "5,4")
+    f.line(720, 178, 720, 246, RULE, 1.4, "5,4")
+
+    caption(f, 60, 362, 820,
+            "That is the whole theorem: during a partition you cannot have "
+            "both. Path A of the fork is AP; Path B is CP.")
+    save(f)
+
+
+# =========================================================== 20. join fixes
+
+def fig_joins():
+    f = Fig(1000, 440, "fig-joins.svg")
+    titles = ["co-locate", "broadcast", "shuffle"]
+    subs = ["put the two tables on the same key",
+            "copy the small side to every node",
+            "re-partition both sides by the join key"]
+
+    for i in range(3):
+        x = 30 + i * 330
+        f.region(x, 56, 310, 300, titles[i])
+        f.rect(x, 56, 310, 300, WHITE, RULE, 1.4, rx=8)
+        f.txt(x + 155, 84, titles[i], 15, "middle", TEAL, bold=True)
+        f.txt(x + 155, 104, subs[i], 10.5, "middle", GRAY)
+
+    # 1. co-locate
+    x = 30
+    f.rect(x + 30, 128, 250, 130, PALE, TEAL, 1.6, rx=6)
+    f.txt(x + 155, 148, "one node", 10, "middle", GRAY)
+    f.rect(x + 48, 162, 96, 74, WHITE, TEAL, 1.2, rx=4)
+    f.txt(x + 96, 190, "orders", 11, "middle", INK, bold=True)
+    f.txt(x + 96, 210, "keyed by", 10, "middle", GRAY)
+    f.txt(x + 96, 224, "customer", 10, "middle", GRAY)
+    f.rect(x + 166, 162, 96, 74, WHITE, TEAL, 1.2, rx=4)
+    f.txt(x + 214, 190, "customers", 11, "middle", INK, bold=True)
+    f.txt(x + 214, 210, "keyed by", 10, "middle", GRAY)
+    f.txt(x + 214, 224, "customer", 10, "middle", GRAY)
+    arrow(f, x + 148, 199, x + 162, 199, TEAL, 1.6)
+    f.txt(x + 155, 286, "the join never leaves the node", 11, "middle", TEAL)
+
+    # 2. broadcast
+    x = 360
+    for j, (label, tx) in enumerate((("node 1", x + 34), ("node 2", x + 176))):
+        f.rect(tx, 176, 100, 100, PALE, RULE, 1.2, rx=4)
+        f.txt(tx + 50, 196, label, 10, "middle", GRAY)
+        f.rect(tx + 14, 210, 72, 50, WHITE, TEAL, 1.2, rx=4)
+        f.txt(tx + 50, 240, "facts", 11, "middle", INK)
+    f.rect(x + 116, 132, 78, 28, AMBER_W, AMBER, 1.4, rx=4)
+    f.txt(x + 155, 151, "dim table", 10, "middle", AMBER, bold=True)
+    for tx in (x + 84, x + 226):
+        arrow(f, x + 155, 164, tx, 206, AMBER, 1.4, "4,4")
+    f.txt(x + 155, 296, "one copy of the small side", 11, "middle", AMBER)
+
+    # 3. shuffle
+    x = 690
+    for j, tx in enumerate((x + 24, x + 166)):
+        f.rect(tx, 132, 120, 144, PALE, RULE, 1.2, rx=4)
+        f.txt(tx + 60, 152, "node %d" % (j + 1), 10, "middle", GRAY)
+        for k in range(3):
+            f.rect(tx + 12, 164 + k * 34, 96, 26, WHITE, TEAL, 1, rx=3)
+            f.txt(tx + 60, 182 + k * 34, "rows %d" % (k + 1), 10, "middle", INK)
+    arrow(f, x + 146, 200, x + 164, 250, RED, 1.6, "4,4")
+    arrow(f, x + 164, 214, x + 146, 264, RED, 1.6, "4,4")
+    f.txt(x + 155, 296, "both sides move, across the network", 11, "middle", RED)
+
+    caption(f, 30, 368, 940,
+            "The best cross-shard join is the one you designed away. After "
+            "that: copy the small side, or move both sides and pay for the "
+            "network.")
+    save(f)
+
+
 # ========================================================= 18. design space
 
 def fig_space():
@@ -870,6 +1076,8 @@ def fig_space():
 
 def main():
     fig_commit_point()
+    fig_two_commits()
+    fig_transaction()
     fig_multimaster()
     fig_fork()
     fig_quorum()
@@ -891,6 +1099,8 @@ def main():
     fig_access_depth(lit=0)
     fig_consensus()
     fig_commit_points()
+    fig_cap()
+    fig_joins()
     fig_space()
 
 

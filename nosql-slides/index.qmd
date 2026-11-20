@@ -49,94 +49,131 @@ The reading clause is a promise the deck pays off late, on the licence slide.
 Mention it now so the last part lands as an answer rather than a rant.
 :::
 
-## The story in five moves {.smaller}
-
-1. **Postgres is ACID because one node owns the commit point.**
-2. **A commit point does not survive multiple writers across machines.**
-3. **So you fork:** converge later, or wait for a majority.
-4. **The join is what pays for it**, and Cassandra is the system that deletes
-   it on purpose.
-5. **Once the table is only a view, the point moves** — into a document, into
-   a bucket, or back behind a consensus group.
-
-Each move costs something specific. The lecture is mostly about naming the
-cost precisely enough that you can argue with it.
-
-::: {.notes}
-This is the whole lecture on one slide, and it is deliberately checkable: at
-the end, they should be able to fill in the cost for each move.
-
-Move 5 is where the document stores and the blob stores live, so the second
-half of the lecture is not a new subject — it is the same subject at a
-different address.
-:::
-
 # Part 0 — The Promise
 
-## Postgres is the reference implementation of the thing we leave {.smaller}
+## A commit point is one decision, made once {.smaller}
 
-Not because it is old, and not because it is relational. Because it makes one
-clean promise:
+<div class="beat">The problem</div>
 
-> **One node decides the commit point, and every reader sees a consistent
-> snapshot of committed data.**
+> A commit point is the single instant at which a set of writes becomes,
+> together, **visible**, **durable** and **ordered** — and there is exactly one
+> of them per transaction.
 
-That sentence is the load-bearing wall of the lecture. Everything after this
-slide is an argument about what happens when you cannot have it.
+![](figs/fig-commit-point.svg){width="88%"}
+
+In Postgres you can point at it. `COMMIT` appends a commit record to the
+write-ahead log and fsyncs it. Before that record exists, no reader sees
+anything. After it, every reader sees all of it.
 
 ::: {.notes}
-Keep the emphasis on "one node". The relational model is almost incidental —
-the reason Postgres is the starting point is that it puts the decision in one
-place and is honest about it.
+Slow down here; this is the definition the rest of the hour leans on. If they
+leave with one sentence, it should be this box.
 
-If a student asks why not MySQL or SQLite: same answer, same one node. The
-deck picks Postgres because it is the one most of them will actually run.
+The point to make physically: the commit point is not the node and not the
+table. It is one record, in one file, on one disk. Everything else in the
+lecture is an attempt to have that record in more than one place.
 :::
 
-## ACID is four promises and one of them is different {.smaller}
+## Having it twice is the problem {.smaller}
+
+<div class="beat">The problem</div>
+
+![](figs/fig-two-commits.svg){width="88%"}
+
+Durability on many machines is easy — copy the bytes. What is hard is **one
+decision out of many independent ones**.
+
+Neither node is broken. Each one did exactly what it was asked. The system now
+has **two truths and no undo**.
+
+That is the challenge, and it is not storage or throughput: it is a single
+decision, made once, when the deciders cannot see each other.
+
+::: {.notes}
+This is the slide that turns "commit point" from a phrase into a problem. The
+retry is the ordinary case — a lost reply is not exotic, it is Tuesday.
+
+Ask the room what should have happened. Every answer is a coordination cost:
+the client checks before retrying, or A and B agree who owns the key, or the
+transaction carries an id both nodes can deduplicate on.
+:::
+
+## A transaction is the unit these promises are about {.smaller}
+
+<div class="beat">The mechanism</div>
+
+![](figs/fig-transaction.svg){width="82%"}
+
+`BEGIN`, statements, then `COMMIT` or `ABORT`. The unit is **a set of writes
+with one outcome**, not a write.
+
+Worth saying early, because the rest of the lecture keeps using it: a
+single-row write is a transaction of size one. "Single-row atomicity" is a much
+smaller promise than "atomicity" sounds, and the difference matters in Part III.
+
+::: {.notes}
+If anyone has written `BEGIN; ...; COMMIT;` this is revision rather than new
+material, which is fine — the point is that the *unit* is the set, and every
+guarantee in the next slide is a guarantee about the set.
+
+The aside about single-row atomicity pays off on the Cassandra slide, where
+atomicity is real but scoped to one partition.
+:::
+
+## ACID is four promises about one transaction {.smaller}
+
+<div class="beat">The mechanism</div>
 
 | | the promise | a property of |
 |---|---|---|
-| **A** | all of it lands, or none of it does | the mechanism |
-| **I** | concurrent work does not see your uncommitted work | the mechanism |
-| **D** | once committed, it survives the crash | the mechanism |
-| **C** | the data moves from one valid state to another | **the data model** |
+| **A** | the whole set lands, or none of it does | the mechanism |
+| **I** | concurrent transactions do not see each other's uncommitted work | the mechanism |
+| **D** | once the commit record is on disk, a crash does not undo it | the mechanism |
+| **C** | the transaction moves the data from one valid state to another | **the data model** |
 
-Atomicity, isolation and durability are things a *mechanism* can do. Consistency
-is a statement about *your* invariants — keys, foreign keys, checks. It only
-means anything if something declared them.
+Read the first three with the word "transaction" in front: the transaction is
+atomic, isolated and durable. **C is different**: it is a statement about
+*invariants you declared* — keys, foreign keys, checks.
 
-Park that. It is the whole of Part IV.
+It only means anything if something declared them. Park that; it is all of
+Part IV.
 
 ::: {.notes}
-This is the slide the precision beat depends on, so do not rush it. The
-question to plant: which of these four needs to know what your data means?
+The question to plant: which of these four needs to know what your data means?
+A, I and D need to know about writes. C needs to know about the schema.
 
-A, I and D need to know about writes. C needs to know about the schema. That
-distinction is why a system can be careful about the first three and have
-nothing to say about the fourth.
+That distinction is why a system can be careful about the first three and have
+nothing to say about the fourth — which is exactly what Cassandra will do.
 :::
 
-## ACID is cheap because one node owns the log {.smaller}
+## Write-ahead logging is how one node keeps all four {.smaller}
 
-![](figs/fig-commit-point.svg){width="86%"}
+<div class="beat">The mechanism</div>
 
-Three things come free from one box deciding:
+The mechanism is old and unglamorous: **append the intent, then apply it
+later**.
 
-- **one serialization order** — the log is the order
-- **one place to check an invariant** — all the affected rows are there
-- **one durability record** — the log is the record
+1. append the new values to the log
+2. `fsync` the log — this is the commit record
+3. apply to the data pages at leisure, in log order
+4. after a crash, replay the log from the last checkpoint
 
-That is why ACID is the default rather than a premium feature. It is also the
-thing that does not distribute.
+| the log is | because |
+|---|---|
+| the **order** | pages are updated in log order, and only in that order |
+| the **durability record** | the commit record is on disk before the client hears yes |
+| the **recovery plan** | replay is the repair, and it needs no coordination |
+
+One artifact does all three jobs. That is why a single node gets A, I and D
+almost for free — and why the commit record *is* the commit point.
 
 ::: {.notes}
-Point at the log, not the box. The log is the commit point; the node is just
-where it lives.
+This is the review the lecture needs before it can remove anything. If the log
+is not concrete, "distributing the commit point" is a slogan.
 
-The third consequence is the one people forget: durability is a property of a
-record, and there is exactly one record. When we distribute, we get many
-records, and "durable" starts meaning something narrower.
+The deep point: the log is a *total order of writes* that one process wrote.
+Distribution means many processes each writing their own total order, and no
+way to interleave them.
 :::
 
 # Part I — Why It Does Not Distribute
@@ -151,7 +188,7 @@ Let more than one node accept writes and you immediately get **conflicting
 concurrent transactions**: two inserts on one key, two updates to one row, two
 transactions that each assume they are the only writer.
 
-Last-write-wins is not a fix. It is a policy for picking which write to throw
+Last-write-wins is not a fix. It is a policy for choosing which write to throw
 away, and it has to be chosen per column, by somebody, before the first
 conflict arrives.
 
@@ -211,11 +248,65 @@ Path A gives up "the latest write". Path B gives up "the fast write". There is
 no third path — only different prices for the same two.
 
 ::: {.notes}
-If they take one vocabulary word from the lecture, make it this fork. CAP is a
-formalisation of it, and CAP is next.
+If they take one vocabulary word from the lecture, make it this fork. The next
+two slides give it its formal name and then take the name apart.
 
 Note that both paths still replicate. The difference is what a *read* is
 allowed to see.
+:::
+
+## CAP is about what you do during a partition {.smaller}
+
+<div class="beat">The trade</div>
+
+![](figs/fig-cap.svg){width="82%"}
+
+| | the guarantee | what it means here |
+|---|---|---|
+| **C** | linearizability | every read returns the latest completed write |
+| **A** | availability | every request gets a non-error response |
+| **P** | partition tolerance | not a knob: a property of the network |
+
+So "pick two of three" is the wrong sentence. **P was never optional.** The
+choice is only what you do *while* a partition is happening — which is the fork
+from the previous slide, now with its formal name: **Path A is AP, Path B is
+CP.**
+
+::: {.notes}
+The theorem is Gilbert and Lynch formalising Brewer, and it is worth saying that
+it is about a *specific* consistency model, which the next slide takes apart.
+
+Do not let "pick two" survive the slide. The correction is the point: partitions
+are not a design choice, so the only choice is the response.
+:::
+
+## CAP's C is not ACID's C {.smaller}
+
+<div class="beat">The trade</div>
+
+The shared letter is a coincidence of vocabulary, and it is the most misread
+coincidence in the field.
+
+| | what it actually is | about |
+|---|---|---|
+| **CAP's C** | linearizability | one operation, in real time |
+| **ACID's C** | declared invariants hold | the whole data set |
+| **ACID's I** | isolation; serializable at its strongest | one transaction |
+
+Serializability is not linearizability. Together they are **strict
+serializability**, which is what the systems in Part VI actually aim at.
+
+Which gives the sharp result: **a system can be CP and still violate ACID's
+C** — because ACID's C needs invariants to exist and machinery to check them.
+CAP constrains replication during a partition. ACID constrains what a
+transaction promises. Different questions.
+
+::: {.notes}
+This is the slide that stops a whole family of confused sentences, so give it
+time. "Mongo is CP so it's ACID" is the kind of thing that falls out of it.
+
+The precise version: CAP is about a register, ACID is about a transaction over
+several objects, and neither one implies the other.
 :::
 
 ## R + W > N is the whole dial {.smaller}
@@ -281,6 +372,36 @@ stored procedures", and it is not that.
 Once this is on the board, the precision beat in Part IV is almost forced: if
 you removed the enforcement machinery, then "consistency" has to mean something
 else, and the next question is what.
+:::
+
+## How would you fix it? {.smaller}
+
+<div class="beat">The bill</div>
+
+![](figs/fig-joins.svg){width="92%"}
+
+Four answers, and only the first is cheap:
+
+| answer | when you pay | what it does |
+|---|---|---|
+| **co-locate** | design time | shard both tables on the join key |
+| **denormalize** | write time | store the answer, so no join happens |
+| **broadcast** | query time | copy the small side to every node |
+| **shuffle** | query time | re-partition both sides by the join key |
+
+A query optimizer chooses between the last two. A designer chooses the first
+once, and gets one chance to choose the shard key. Denormalizing is Cassandra's
+answer, and it is the next part.
+
+**The best cross-shard join is the one you designed away.**
+
+::: {.notes}
+The reason this slide is here rather than in a later part: it answers the
+question the previous slide raises, so the room does not sit with it.
+
+The honest ranking is design-time, write-time, query-time — cheapest first. If
+you cannot co-locate, you are choosing which of the other three bills to pay,
+and the optimizer will choose per query.
 :::
 
 # Part III — Cassandra, the AP Answer
@@ -484,8 +605,9 @@ Verify its current status before you cite it.
 > join results for you.
 
 That is the official position, and it is not a limitation to be worked around.
-It is **one table per query pattern**, with the data duplicated so that every
-query is a single-partition read.
+It is the fourth answer from slide 17 — **denormalize** — taken as the default:
+one table per query pattern, with the data duplicated so that every query is a
+single-partition read.
 
 The bill is redundancy and write amplification. The payment buys you this: no
 query ever coordinates across nodes.

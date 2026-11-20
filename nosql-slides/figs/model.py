@@ -11,6 +11,89 @@ disagree with the claim if the picture is drawn from the claim.
 
 import hashlib
 
+# ========================================================= the commit point
+
+def commit_point_jobs():
+    """The three things one decision does at once."""
+    return [
+        ("the order", "writes are applied in log order, and only in log order"),
+        ("visibility", "a reader sees all of the transaction or none of it"),
+        ("durability", "the record is on disk before the client is told yes"),
+    ]
+
+
+RETRY_STEPS = [
+    ("client sends COMMIT to node A", "A appends a commit record"),
+    ("A fsyncs and replies", "one commit point now exists"),
+    ("the reply is lost", "the client cannot know"),
+    ("the client retries at node B", "B appends its own commit record"),
+    ("nobody can undo either", "the system has two truths"),
+]
+
+
+def retry_check():
+    """One logical transaction, two commit records, no undo."""
+    records = [s for s in RETRY_STEPS if "commit record" in s[1]]
+    return len(RETRY_STEPS) == 5 and len(records) == 2
+
+
+def transaction_shape():
+    return ["BEGIN", "write 1", "write 2", "write 3", "COMMIT"]
+
+
+def transaction_check():
+    """The unit is a set: more than one write, exactly one outcome."""
+    shape = transaction_shape()
+    return shape[0] == "BEGIN" and shape[-1] == "COMMIT" and len(shape) == 5
+
+
+# ==================================================================== CAP
+
+CAP = [
+    ("C", "linearizability",
+     "every read returns the latest completed write"),
+    ("A", "availability",
+     "every request gets a non-error response"),
+    ("P", "partition tolerance",
+     "not a knob: it is a property of the network"),
+]
+
+TWO_CS = [
+    ("CAP's C", "linearizability", "one operation, in real time"),
+    ("ACID's C", "declared invariants hold", "the whole data set"),
+    ("ACID's I", "isolation, serializable at its strongest", "one transaction"),
+]
+
+
+def cap_check():
+    """P is not optional, and the fork maps onto the choice."""
+    paths = {"Path A (converge later)": "AP", "Path B (wait for a majority)": "CP"}
+    return (len(CAP) == 3 and CAP[2][0] == "P" and
+            paths["Path A (converge later)"] == "AP" and
+            paths["Path B (wait for a majority)"] == "CP" and
+            len(TWO_CS) == 3)
+
+
+# ======================================================== joining again
+
+# (name, when you pay, relative query-time cost, what it does)
+JOIN_STRATEGIES = [
+    ("co-locate", "design time", 0, "the matching rows are already together"),
+    ("denormalize", "write time", 0, "the answer is stored, so no join happens"),
+    ("broadcast", "query time", 2, "one copy of the small side, to every node"),
+    ("shuffle", "query time", 3, "re-partition both sides by the join key"),
+]
+
+
+def join_check():
+    """Four answers, and shuffle is the expensive one."""
+    names = [j[0] for j in JOIN_STRATEGIES]
+    costs = {j[0]: j[2] for j in JOIN_STRATEGIES}
+    return (len(names) == 4 and "co-locate" in names and
+            costs["shuffle"] == max(costs.values()) and
+            costs["co-locate"] < costs["shuffle"])
+
+
 # ============================================================== quorum (N=3)
 
 N = 3
